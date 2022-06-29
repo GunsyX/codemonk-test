@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div style="display: flex">
+            <div>
+                <label>choose tag</label>
+                <select id="t-type">
+                    <option value="input">input</option>
+                    <option value="div">div</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" id="t-val" placeholder="enter value" />
+            </div>
+        </div>
+        <div style="display: flex">
+            <input type="text" id="t-attr-name" placeholder="attribute name (class, id, etc.)" />
+            <input type="text" id="t-attr-value" placeholder="attribute value" />
+            <button id="b-attr">Add attribute</button>
+        </div>
+        <div id="attr-preview">
+            
+        </div>
+        <button id="b-generate">generate</button>
+    </div>
+    <div id="source">
+        <!-- <input type="text" />
+        <input type="file" />
+        <input type="checkbox" /> -->
+    </div>
+    <button id="b-run">Extract & Render DOM List</button>
+    <div id="target">
+
+    </div>
+
+    <script src="/main/index.js"></script>
+    <script src="lib.js"></script>
+</body>
+</html>
