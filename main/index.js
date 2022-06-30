@@ -1,87 +1,122 @@
-const source = document.getElementById('source');
+const buttons = {
+    generateTag: document.getElementById('b-generate'),
+    addAttribute: document.getElementById('b-attr'),
+    renderTags: document.getElementById('b-run'),
+};
+
+const inputs = {
+    tag: {
+        // current tag value input
+        valueInput: document.getElementById('t-val'),
+        // current tag type input (e.g. div, input, etc.)
+        type: document.getElementById('t-type'),
+        // current tag's attribute name input
+        attrName: document.getElementById('t-attr-name'),
+        // current tag's attribute value input
+        attrValue: document.getElementById('t-attr-value'),
+    }
+}
+
+const divs = {
+    // GUI preview of the attributes for the new tag
+    attrPreview: document.getElementById('attr-preview'),
+    // container for user generated tags
+    source: document.getElementById('source'),
+    // container for rendered tags
+    target: document.getElementById('target'),
+}
+
+const cleanup = (options) => {
+    const { tag } = inputs;
+    if(options.attr) {
+        // erase attribute inputs
+        tag.attrName.value = '';
+        tag.attrValue.value = '';
+    }else if(options.attrData) {
+        // destroy attribute preview and attributes array
+        attributes = [];
+        divs.attrPreview.innerHTML = '';
+    }else if(options.tag) {
+        // erase tag inputs
+        tag.valueInput.value = '';
+        tag.type.value = '';
+    }
+}
 
 let attributes = [];
 const onAttributeAdd = (e) => {
-    const attrNameDiv = document.getElementById('t-attr-name');
-    const attrValueDiv = document.getElementById('t-attr-value');
+    const { attrName, attrValue } = inputs.tag;
+    // save attribute to internal array
     const newAttribute = {
-        name: attrNameDiv.value,
-        value: attrValueDiv.value,
+        name: attrName.value,
+        value: attrValue.value,
     }
-    const previewDiv = document.getElementById('attr-preview');
     attributes.push(newAttribute);
-    previewDiv.innerHTML += `\nattributeName: ${newAttribute.name} | attributeValue: ${newAttribute.value}\n`;
-    // cleanup
-    attrNameDiv.value = '';
-    attrValueDiv.value = '';
+    // generate attribute preview
+    divs.attrPreview.innerHTML += `attributeName: ${newAttribute.name} | attributeValue: ${newAttribute.value}<br>`;
+    // erase attribute inputs
+    cleanup({attr: true});
 }
 
 const generateATag = () => {
-    // get the tags
-    const tVal = document.getElementById('t-val').value;
-    const tType = document.getElementById('t-type');
-    const newElement = document.createElement(tType.value);
-    
-    newElement.value = tVal;
-    newElement.innerHTML = tVal;
+    // generate tag based on user submitted values
+    const { valueInput, type } = inputs.tag;
+    const newElement = document.createElement(type.value);
+    newElement.value = valueInput.value;
+    newElement.innerHTML = valueInput.value;
     attributes.map(attr=>(
         newElement.setAttribute(attr.name, attr.value)
     ));
-    source.appendChild(newElement);
-    // cleanup
-    attributes = [];
-    document.getElementById('attr-preview').innerHTML = '';
-
+    // append tag to source container
+    divs.source.appendChild(newElement);
+    // erase tag inputs
+    cleanup({attrData: true, attr: true, tag: true});
 }
 
 const extractDOMNodes = () => {
+    // DOM node data array
     const nodeList = [];
     const getAttributes = (node) => {
+        // extract attributes from the node
         const attributesNodeList = node.attributes;
         const attributeNames = Array.from(attributesNodeList);
-        console.log(attributeNames);
         const attributes = {};
         attributeNames.map(attribute => {
             attributes[attribute.localName] = node.getAttribute(attribute.localName)
         })
-        console.log(attributes);
         return attributes;
     }
-    Array.from(source.children).map(node=>{
+    // map through source container's child nodes.
+    Array.from(divs.source.children).map(node=>{
+        // extract node data
         const newNodeObject = {
             tag: node.tagName.toLowerCase(),
             val: node.value,
             att: getAttributes(node),
         }
+        // push node data to DOM node list
         nodeList.push(newNodeObject);
     })
-    console.log(nodeList);
     return nodeList;
 }
 
 const renderDOMNodes = (nodeList) => {
-    new HtmlGenerator(nodeList, document.body)
-    console.log('rendered');
+    // render DOM nodes to target container
+    new HtmlGenerator(nodeList, divs.target)
 }
 
 const extractAndRender = () => {
+    // extract DOM nodes from source container
     const nodeList = extractDOMNodes();
-    renderDOMNodes(nodeList); // for demonstration
+    // render DOM nodes to target container (for demonstration)
+    renderDOMNodes(nodeList);
 }
 
 const main = () => {
-    // get the tags
-    const generateTagButton = document.getElementById('b-generate');
-    const addAttributeButton = document.getElementById('b-attr');
-    const renderTagsButton = document.getElementById('b-run');
-
     //attach listeners
-    generateTagButton.addEventListener('click', generateATag);
-    addAttributeButton.addEventListener('click', onAttributeAdd);
-    renderTagsButton.addEventListener('click', extractAndRender);
+    buttons.generateTag.addEventListener('click', generateATag);
+    buttons.addAttribute.addEventListener('click', onAttributeAdd);
+    buttons.renderTags.addEventListener('click', extractAndRender);
 }
 
 main();
-
-
-//test attributes

@@ -1,13 +1,14 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <div style="display: flex">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/index.css">
+        <title>Codemonk's Javascript Assessment</title>
+    </head>
+    <body>
+        <!-- TAG INPUTS -->
+        <div class="flex-row">
             <div>
                 <label>choose tag</label>
                 <select id="t-type">
@@ -15,31 +16,27 @@
                     <option value="div">div</option>
                 </select>
             </div>
-            <div>
-                <input type="text" id="t-val" placeholder="enter value" />
-            </div>
+            <input id="t-val" placeholder="enter value" />
         </div>
-        <div style="display: flex">
-            <input type="text" id="t-attr-name" placeholder="attribute name (class, id, etc.)" />
-            <input type="text" id="t-attr-value" placeholder="attribute value" />
-            <button id="b-attr">Add attribute</button>
+
+        <!-- ATTRIBUTE INPUTS -->
+        <div class="flex-row">
+            <input id="t-attr-name" placeholder="attribute name (class, id, etc.)" />
+            <input id="t-attr-value" placeholder="attribute value" />
+            <button id="b-attr">Add attribute</button><br>
         </div>
-        <div id="attr-preview">
-            
-        </div>
+        <!-- ATTRIBUTE PREVIEW -->
+        <div id="attr-preview"></div>
+
+        <!-- SOURCE -->
         <button id="b-generate">generate</button>
-    </div>
-    <div id="source">
-        <!-- <input type="text" />
-        <input type="file" />
-        <input type="checkbox" /> -->
-    </div>
-    <button id="b-run">Extract & Render DOM List</button>
-    <div id="target">
+        <div id="source"></div>
 
-    </div>
+        <!-- TARGET -->
+        <button id="b-run">Extract & Render DOM List</button>
+        <div id="target"></div>
 
-    <script src="/main/index.js"></script>
-    <script src="lib.js"></script>
-</body>
+        <script src="/main/index.js"></script>
+        <script src="lib.js"></script>
+    </body>
 </html>

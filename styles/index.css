@@ -2,3 +2,21 @@
     padding: 0;
     margin: 0;
 }
+
+body {
+    padding: 20px;
+}
+
+/* general gaps */
+body > *, body > * > * {
+    margin: 5px 2px;
+}
+
+/* duplicate gap correction */
+body > .flex-row {
+    margin: 0;
+}
+
+.flex-row {
+    display: flex;
+}
